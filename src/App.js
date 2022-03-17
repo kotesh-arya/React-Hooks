@@ -102,35 +102,78 @@ export default function App() {
     { id: 1, title: "Clothes", done: false },
     { id: 2, title: "Gadgets", done: false }
   ];
-  // const [itemCount, setItemsCount] = useState(0);
+  // const addedItemsArr =[];
+  // const addItem =()=> ;
+  const [addedItem, setAddedItem] = useState([]);
 
-  // const [addedItems, setAddedItems] = useState();
-  // const addItem = () => {
-  //   setItemsCount(itemCount + 1);
-  //   setAddedItems();
-  // };
+  //check if obj is present inside an array
+  const checkDupicate = (item, arrayOfObj) => {
+    let isPresent = false;
+    arrayOfObj.map((itemFromCart) => {
+      if (itemFromCart.id === item.id) {
+        isPresent = true;
+      }
+    });
+    return isPresent;
+  };
+
+  const addItem = (item) => {
+    if (checkDupicate(item, addedItem)) {
+      setAddedItem((prev) => {
+        // return [...prev, { ...item, quantity: prev.item.quantity + 1 }];
+        return prev.map((i) =>
+          i.id === item.id ? { ...i, quantity: i.quantity++ } : item
+        );
+      });
+    } else {
+      setAddedItem((newArr) => [...newArr, { ...item, quantity: 1 }]);
+    }
+
+    // const newArr = addedItem.map((itemFromCart) => {
+    //   console.log(itemFromCart);
+    //   if (item.id === itemFromCart.id) {
+    //     const result = { ...itemFromCart, quantity: itemFromCart.quantity++ };
+    //     setAddedItem(newArr =>{
+    //       [...newArr,]
+    //     })
+    //     console.log(result);
+    //     return result;
+    //   } else {
+    //     return item;
+    //     //  console.log("add new item")
+    //   }
+    // });
+    // setAddedItem(newArr);
+    // console.log(newArr);
+  };
+  /* check the item id is present already
+  if id  present then start increasing the count instead of showing it again
+*/
   return (
     <div style={{ fontSize: pageFont }} className="App">
       {/* <Card title='kotesh' age={32} color='red'/>
       <Card title='kotesh' age={32}/>
       <Card title='kotesh' age={32}/>
-      <Card title='kotesh' age={32}/>
-
+      <Card title='kotesh' age={32}/> */}
       <ul>
         {itemArr.map((item) => {
           return (
-            <li key={item.title}>
-              {item.title} <button onClick={addItem}>ADD TO CART</button> <br />{" "}
-              <br />
+            <li key={item.title} onClick={() => addItem(item)}>
+              {item.title} <button>ADD TO CART</button> <br /> <br />
             </li>
           );
         })}
       </ul>
       <hr />
-      <h5>Cart({itemCount})</h5>
+      <h5>Cart()</h5>
       <ul>
-        <li>{addedItems}</li>
-      </ul> */}
+        {addedItem.map((item) => (
+          <li>
+            {item.title}
+            {item.quantity}
+          </li>
+        ))}
+      </ul>
       <button onClick={decreaseSize}>-</button> <br />
       <button onClick={increaseSize}>+</button>
       <h4>The current page font size is {pageFont}px </h4>
@@ -160,12 +203,12 @@ export default function App() {
     </div>
   );
 }
-function Card({ title, age, color }) {
-  return (
-    <div>
-      <p>{age}</p>
-      <h1>{title}</h1>
-      <p>{color}</p>
-    </div>
-  );
-}
+// function Card({ title, age, color }) {
+//   return (
+//     <div>
+//       <p>{age}</p>
+//       <h1>{title}</h1>
+//       <p>{color}</p>
+//     </div>
+//   );
+// }
