@@ -1,7 +1,12 @@
+@import url("https://vodka-ui-componentlib.netlify.app/Component/component.css");
 .App {
   font-family: sans-serif;
   text-align: center;
 }
 ul {
   list-style-type: none;
+}
+
+.hide_outofstock_text {
+  color: white;
 }

@@ -1,5 +1,7 @@
 import "./styles.css";
 import { useState } from "react";
+import { ProductCard } from "./ProductCard";
+import { OutOfStockCard } from "./OutOfStockCard";
 export default function App() {
   const changeBg = () => {
     bgColor === "red" ? setBgColor("blue") : setBgColor("red");
@@ -102,59 +104,181 @@ export default function App() {
     { id: 1, title: "Clothes", done: false },
     { id: 2, title: "Gadgets", done: false }
   ];
-  // const addedItemsArr =[];
-  // const addItem =()=> ;
+
   const [addedItem, setAddedItem] = useState([]);
 
   //check if obj is present inside an array
-  const checkDupicate = (item, arrayOfObj) => {
+  const checkDupicate = (item, cartArr) => {
     let isPresent = false;
-    arrayOfObj.map((itemFromCart) => {
+    cartArr.map((itemFromCart) => {
+      //checks if the cart going item's ID is same as the ID's of items already inside the cart Array
       if (itemFromCart.id === item.id) {
         isPresent = true;
       }
     });
-    return isPresent;
+    return isPresent; //returns the final value present or not.
   };
 
   const addItem = (item) => {
     if (checkDupicate(item, addedItem)) {
       setAddedItem((prev) => {
-        // return [...prev, { ...item, quantity: prev.item.quantity + 1 }];
-        return prev.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity++ } : item
+        const arr = prev.map((i) =>
+          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
         );
+        console.log(item, arr);
+        return arr;
       });
     } else {
       setAddedItem((newArr) => [...newArr, { ...item, quantity: 1 }]);
     }
-
-    // const newArr = addedItem.map((itemFromCart) => {
-    //   console.log(itemFromCart);
-    //   if (item.id === itemFromCart.id) {
-    //     const result = { ...itemFromCart, quantity: itemFromCart.quantity++ };
-    //     setAddedItem(newArr =>{
-    //       [...newArr,]
-    //     })
-    //     console.log(result);
-    //     return result;
-    //   } else {
-    //     return item;
-    //     //  console.log("add new item")
-    //   }
-    // });
-    // setAddedItem(newArr);
-    // console.log(newArr);
   };
   /* check the item id is present already
   if id  present then start increasing the count instead of showing it again
 */
+
+  // ex8: switch tabs#
+  // Make three components: Home, About, Profile.
+  // Put some text in the components
+  // Now, create three buttons with same name
+  // Clicking on the button should show that component
+  const [page, setPage] = useState(<Home />);
+  const showHome = () => {
+    setPage(<Home />);
+  };
+  const showAbout = () => {
+    setPage(<About />);
+  };
+  const showProfile = () => {
+    setPage(<Profile />);
+  };
+  // ex9: toast#
+  // Create a Toast Component
+  // Component should have two things
+  // Text
+  // Hide Button
+  // Create a button show toast
+  // Clicking on this button should show Toast
+  // Clicking on hide button on toast should hide the toast
+  const [display, setDisplay] = useState("none");
+  const showToast = () => {
+    setDisplay("block");
+  };
+  const hideSuccessToast = () => {
+    setDisplay("none");
+  };
+  const hideWarningToast = () => {
+    setDisplay("none");
+  };
+  const hideErrorToast = () => {
+    setDisplay("none");
+  };
+  //   ex10: todo/strikethrough#
+  // Write a TODO app
+  // Add TODOs from input
+  // Clicking on a TODO should complete it using strikethrough
+  // Clicking again should remove the strikethrough.
+  const [text, setText] = useState("");
+  const createTodo = (e) => {
+    setText(e.target.value);
+    // console.log(text);
+  };
+  const [todoArr, setTodoArr] = useState([]);
+  const addTodo = () => {
+    setTodoArr((oldArr) => {
+      return [...oldArr, text];
+    });
+    setText("");
+  };
+  const [strike, setStrike] = useState("none");
+  const handleStrike = () => {
+    if (strike === "none") {
+      setStrike("line-through");
+    } else {
+      setStrike("none");
+    }
+  };
+  //   ex11: dark mode#
+  // Create a toggle dark mode button
+  // Clicking on the button should change background and text color and toggle between dark and light mode
+
+  let themeObj = {
+    backgroundColor: "white",
+    color: "black"
+  };
+  const [theme, setTheme] = useState(themeObj);
+  const handleTheme = () => {
+    if (theme.color === "black") {
+      //As the two objects THEME & SET-THEME are having same reference we should never compare between them
+      //instead check by comparing the property values inside the initial theme :)
+      console.log("dark");
+      setTheme({ ...themeObj, backgroundColor: "black", color: "grey" });
+    } else {
+      console.log(theme);
+      setTheme(themeObj);
+    }
+  };
+  //   ex12: like in a list
+  // Render a list
+  // Every item in the list should have a like button.
+  const habbits = ["sleep", "eat", "code"];
+  // ex13: out of stock (grey)#
+  // Render a list of items from an array of objects.
+  //  In that object, have a field outOfStock: true and depending on true/false grey out the out of stock object.
+  //  Your component card should have this design built in as an additional class.
+  const productArr = [
+    { id: 0, title: "AWM", price: 1500, rating: 3, outOfStock: true },
+    { id: 1, title: "M416", price: 2000, rating: 4, outOfStock: false },
+    { id: 2, title: "MK14", price: 3000, rating: 3.5, outOfStock: true }
+  ];
+  const [stockColor, setStockColor] = useState("black");
+
   return (
-    <div style={{ fontSize: pageFont }} className="App">
-      {/* <Card title='kotesh' age={32} color='red'/>
-      <Card title='kotesh' age={32}/>
-      <Card title='kotesh' age={32}/>
-      <Card title='kotesh' age={32}/> */}
+    <div
+      style={{
+        fontSize: pageFont,
+        color: theme.color,
+        backgroundColor: theme.backgroundColor
+      }}
+      className="App"
+    >
+      <ul>
+        {productArr.map((product) => (
+          <OutOfStockCard {...product} />
+        ))}
+      </ul>
+      <ul>
+        {habbits.map((habbit) => (
+          <li>
+            {habbit} <button>Like</button> <br /> <br />
+          </li>
+        ))}
+      </ul>
+      <button onClick={handleTheme}>Change-Theme</button> <br /> <br />
+      <input onChange={createTodo} value={text} />{" "}
+      <button onClick={addTodo}>Add Todo</button> <br /> <br />
+      <Todos
+        todoList={todoArr}
+        onClickTask={handleStrike}
+        makeStrike={strike}
+      />
+      <button onClick={showHome}>HOME</button>
+      <button onClick={showAbout}>ABOUT</button>
+      <button onClick={showProfile}>PROFILE</button>
+      {page}
+      <button onClick={showToast}>
+        <p>Show Toast</p>
+      </button>
+      <ToastSuccess
+        display={display}
+        color={textColor}
+        onClick={hideSuccessToast}
+      />
+      <ToastWarning
+        display={display}
+        color="orange"
+        onClick={hideWarningToast}
+      />
+      <ToastError display={display} color="red" onClick={hideErrorToast} />
       <ul>
         {itemArr.map((item) => {
           return (
@@ -203,12 +327,66 @@ export default function App() {
     </div>
   );
 }
-// function Card({ title, age, color }) {
-//   return (
-//     <div>
-//       <p>{age}</p>
-//       <h1>{title}</h1>
-//       <p>{color}</p>
-//     </div>
-//   );
-// }
+function Home() {
+  return (
+    <div>
+      <h1>This is home page component</h1>
+    </div>
+  );
+}
+function About() {
+  return (
+    <div>
+      <h1>This is About page component</h1>
+    </div>
+  );
+}
+function Profile() {
+  return (
+    <div>
+      <h1>This is Profile page component</h1>
+    </div>
+  );
+}
+function ToastSuccess({ display, color, onClick }) {
+  return (
+    <div style={{ display: display }}>
+      <h4 style={{ color: color }}>This is a Success toast </h4>{" "}
+      <button onClick={onClick}>Hide Toast</button>
+    </div>
+  );
+}
+function ToastWarning({ display, color, onClick }) {
+  return (
+    <div style={{ display: display }}>
+      <h4 style={{ color: color }}>This is a Warning toast </h4>{" "}
+      <button onClick={onClick}>Hide Toast</button>
+    </div>
+  );
+}
+function ToastError({ display, color, onClick }) {
+  return (
+    <div style={{ display: display }}>
+      <h4 style={{ color: color }}>This is an Error toast </h4>{" "}
+      <button onClick={onClick}>Hide Toast</button>
+    </div>
+  );
+}
+function Todos({ todoList, onClickTask, makeStrike }) {
+  return (
+    <div>
+      <ul>
+        {todoList.map((item) => (
+          <li
+            onClick={onClickTask}
+            style={{ textDecoration: makeStrike }}
+            key={item}
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div> // Doubt-to-ravi: while clicking on an item from mapping of an array
+    //setting state for single item sets the state for all remaining items also
+  );
+}
