@@ -1,5 +1,7 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./styles.css";
-import { useState } from "react";
+
 import { ProductCard } from "./ProductCard";
 import { OutOfStockCard } from "./OutOfStockCard";
 export default function App() {
@@ -230,7 +232,36 @@ export default function App() {
     { id: 1, title: "M416", price: 2000, rating: 4, outOfStock: false },
     { id: 2, title: "MK14", price: 3000, rating: 3.5, outOfStock: true }
   ];
-  const [stockColor, setStockColor] = useState("black");
+  // ----------------------------------useStateHook- END-------------
+  // ----------------------------------useEffectHook- START-------------
+  // const [loader, setLoader] = useState(false);
+  // const [message, setMessage] = useState([]);
+  // const showData = async () => {
+  //   setLoader(true);
+  //   try {
+  //     const response = await axios.get("/api/users");
+  //     setMessage(response.data.users);
+  //     console.log(response.data.users);
+  //     setLoader(false);
+  //   } catch (error) {
+  //     setMessage("there is an error");
+  //   }
+  // };
+  const [loader, setLoader] = useState(false);
+  const [product, setProduct] = useState([]);
+  useEffect(() => {
+    (async () => {
+      setLoader(true);
+      try {
+        const response = await axios.get("/api/products");
+        setProduct(response.data.products);
+        setLoader(false);
+      } catch (error) {
+        setProduct("error here");
+      }
+    })();
+  }, []);
+  // ----------------------------------useEffectHook- END-------------
 
   return (
     <div
@@ -241,6 +272,23 @@ export default function App() {
       }}
       className="App"
     >
+      {/* ----------------------------------useEffectHook- START------------- */}
+      {/* {loader && <div>loading...</div>}
+      <h1> Showcase Products </h1>
+      <ul>
+        {product.map((item) => {
+          return <li key={item.name}>{item.name}</li>;
+        })}
+      </ul> */}
+      {/* {loader && <div>loading...</div>}
+      <h1>
+        {" "}
+        {message.map((item) => {
+          return `${item.name} `;
+        })}{" "}
+      </h1>
+      <button onClick={showData}> Click to load data from server </button> */}
+      {/* ----------------------------------useEffectHook- END------------- */}
       <ul>
         {productArr.map((product) => (
           <OutOfStockCard {...product} />
