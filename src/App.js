@@ -261,6 +261,32 @@ export default function App() {
       }
     })();
   }, []);
+
+  // - On click of Save Address button add city to server using a POST request.
+  //  const sendAddress = async () => {
+  //   setLoader(true);
+  //   console.log(newCity); //showing only the city name we have entered inside the input, we are getting it here :)
+  //   const address = {
+  //     //created a new object with the desired address
+  //     city: newCity
+  //   };
+  //   try {
+  //     const response = await axios.post("/api/addresses", { address }); // made by myself ))
+  //     // console.log(response);
+  //     response.status === 201
+  //       ? setAddresses((oldAddresses) => {
+  //           setNewCity("");
+  //           return [...oldAddresses, { city: newCity }];
+  //         })
+  //       : console.log("went to next case");
+  //     // console.log(response);
+  //     setLoader(false);
+  //   } catch (error) {
+  //     setMessage("Can't save the address you have added ");
+  //     setLoader(false);
+  //     // setNewCity("");
+  //   }
+  // };
   // ----------------------------------useEffectHook- END-------------
 
   return (
@@ -288,6 +314,26 @@ export default function App() {
         })}{" "}
       </h1>
       <button onClick={showData}> Click to load data from server </button> */}
+      {/* ---------------- adding a new address to the server using axois post method and showing it on the view by setting statee */}
+      {/* <h1> address book </h1>
+      <input
+        type="text"
+        value={newCity}
+        placeholder="enter city"
+        onChange={(event) => {
+          const { value } = event.target; // value we entered into input is
+          setNewCity(value); //setted as the new city
+        }}
+      />
+      <button onClick={sendAddress}> Save Address </button>
+      {loader && <div>Sending Data...</div>}
+      <br />
+      {message}
+      <ul>
+        {addresses.map((address) => (
+          <li key={address.city}>{address.city}</li>
+        ))}
+      </ul> */}
       {/* ----------------------------------useEffectHook- END------------- */}
       <ul>
         {productArr.map((product) => (
