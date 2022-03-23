@@ -288,6 +288,96 @@ export default function App() {
   //   }
   // };
   // ----------------------------------useEffectHook- END-------------
+// ------------------ADDRESS MANAGEMENT-------------------------------------------
+//   This is your address management for eCommerce website. Overtime, turn it into a full-fledged app with all the bells and whistles of address management
+  // input validation
+  // multiple fields
+  // remove address
+  // edit address
+  // See Flipkart or Amazon's address management for inspiration.
+
+  // const addressArr = [];
+  const [address, setAddress] = useState([]);
+  const [userName, setUserName] = useState("");
+  const [nameValidation, setNameValidation] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [numberValidation, serNumberValidation] = useState("");
+  const [pinCode, setPinCode] = useState();
+  const [codeValidation, setCodeValidation] = useState("");
+  const [submit, setSubmit] = useState("SUBMIT");
+  const nameHandler = (e) => {
+    setUserName(e.target.value);
+  };
+  const phoneNumberHandler = (e) => {
+    setPhoneNumber(e.target.value);
+  };
+  const pinCodeHandler = (e) => {
+    setPinCode(e.target.value);
+  };
+  const submitData = () => {
+    if (userName.match(/\d/) || userName === "") {
+      setNameValidation("please enter a valid User name");
+    } else if (
+      phoneNumber.match(/^[A-Za-z]+$/) ||
+      phoneNumber.length < 10 ||
+      phoneNumber === ""
+    ) {
+      setUserName(userName);
+      serNumberValidation("Please enter a valid Phone number ");
+    } else if (
+      pinCode.match(/^[A-Za-z]+$/) ||
+      pinCode.length > 6 ||
+      pinCode === ""
+    ) {
+      setUserName(userName);
+      setPhoneNumber(phoneNumber);
+      setCodeValidation("Please enter a valid pin code");
+    } else {
+      setAddress((address) => [
+        ...address,
+        {
+          id: parseInt(Math.random(), 10) * 100,
+          user: userName,
+          phone: phoneNumber,
+          pin: pinCode
+        }
+      ]);
+      setUserName("");
+      setPhoneNumber("");
+      setPinCode("");
+    }
+  };
+
+  const removeAddress = (addressToBeRemoved) => {
+    console.log(address, addressToBeRemoved);
+    const filtered = address.filter((item) => {
+      // console.log(item.id, addressToBeRemoved.id);
+      return item.id !== addressToBeRemoved.id;
+    });
+    setAddress(filtered);
+  };
+  const editAddress = (addressToBeDeleted) => {
+    if (submit === "SUBMIT") {
+      setSubmit("UPDATE");
+    } else {
+      setSubmit("SUBMIT");
+    }
+    // ---------------------------
+    const edited = address.filter((item) => {
+      // console.log(item.id, addressToBeRemoved.id);
+
+      console.log(item.user);
+      console.log(item.phone);
+      console.log(item.pin);
+      setUserName(item.user);
+      setPhoneNumber(item.phone);
+      setPinCode(item.pin);
+      return item.id !== addressToBeDeleted.id;
+    });
+    setAddress(edited);
+  };
+
+// ------------------ADDRESS MANAGEMENT-------------------------------------------
 
   return (
     <div
@@ -418,6 +508,55 @@ export default function App() {
       <input onChange={numericChecker} type={passwordType} />{" "}
       <button onClick={showPassword}>{buttonText}</button>
       <p style={{ color: numericValidationColor }}>{numericInput}</p>
+       {/* ------------------ADDRESS MANAGEMENT------------------------------------------- */}
+       <h1>ADDRESS MANAGEMENT</h1>
+      <label>
+        {" "}
+        <span>Full Name</span>
+        <input onChange={nameHandler} value={userName} /> {nameValidation}
+      </label>{" "}
+      <br /> <br />
+      <label>
+        {" "}
+        <span>Mobile Number</span>
+        <input onChange={phoneNumberHandler} value={phoneNumber} />{" "}
+        {numberValidation}
+      </label>{" "}
+      <br /> <br />
+      <label>
+        {" "}
+        <span>Pin Code</span>
+        <input onChange={pinCodeHandler} value={pinCode} /> {codeValidation}
+      </label>{" "}
+      <br /> <br /> <button onClick={submitData}>{submit}</button> <br />
+      <div>
+        <h4>SAVED ADDRESS</h4>
+
+        <ul>
+          {address.map((item) => {
+            return (
+              <li key={item.user}>
+                <strong>
+                  <span>User Name :</span>
+                </strong>{" "}
+                {item.user}
+                <strong>
+                  <span>Phone Number :</span>
+                </strong>
+                {item.phone}
+                <strong>
+                  <span>Pin Code :</span>
+                </strong>
+                {item.pin}{" "}
+                <button onClick={() => editAddress(item)}>EDIT</button>{" "}
+                <button onClick={() => removeAddress(item)}>REMOVE</button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+ {/* ------------------ADDRESS MANAGEMENT------------------------------------------- */}
+
     </div>
   );
 }
