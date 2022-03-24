@@ -4,6 +4,10 @@ import "./styles.css";
 
 import { ProductCard } from "./ProductCard";
 import { OutOfStockCard } from "./OutOfStockCard";
+import { ComponentZ } from "./ComponentZ"; //imported the inner most component into which you have to send props :)
+
+export const UserContext = React.createContext(); //  Hook created from "React.createContext" is stored as a variable for using it as a wrapper around the inner most component to pass the props
+
 export default function App() {
   const changeBg = () => {
     bgColor === "red" ? setBgColor("blue") : setBgColor("red");
@@ -288,8 +292,8 @@ export default function App() {
   //   }
   // };
   // ----------------------------------useEffectHook- END-------------
-// ------------------ADDRESS MANAGEMENT-------------------------------------------
-//   This is your address management for eCommerce website. Overtime, turn it into a full-fledged app with all the bells and whistles of address management
+  // ------------------ADDRESS MANAGEMENT-------------------------------------------
+  //   This is your address management for eCommerce website. Overtime, turn it into a full-fledged app with all the bells and whistles of address management
   // input validation
   // multiple fields
   // remove address
@@ -377,7 +381,7 @@ export default function App() {
     setAddress(edited);
   };
 
-// ------------------ADDRESS MANAGEMENT-------------------------------------------
+  // ------------------ADDRESS MANAGEMENT-------------------------------------------
 
   return (
     <div
@@ -388,6 +392,10 @@ export default function App() {
       }}
       className="App"
     >
+      <UserContext.Provider value="kotesh">
+        <ComponentZ />
+        {/* Wrapping the inner component with the created hook variable with "Provider" key :)  */}
+      </UserContext.Provider>
       {/* ----------------------------------useEffectHook- START------------- */}
       {/* {loader && <div>loading...</div>}
       <h1> Showcase Products </h1>
@@ -508,8 +516,12 @@ export default function App() {
       <input onChange={numericChecker} type={passwordType} />{" "}
       <button onClick={showPassword}>{buttonText}</button>
       <p style={{ color: numericValidationColor }}>{numericInput}</p>
-       {/* ------------------ADDRESS MANAGEMENT------------------------------------------- */}
-       <h1>ADDRESS MANAGEMENT</h1>
+      {/* ------------------ADDRESS MANAGEMENT------------------------------------------- */}
+      <hr />
+      <br /> <br />
+      <br />
+      <h1>ADDRESS MANAGEMENT</h1>
+      <br />
       <label>
         {" "}
         <span>Full Name</span>
@@ -555,8 +567,7 @@ export default function App() {
           })}
         </ul>
       </div>
- {/* ------------------ADDRESS MANAGEMENT------------------------------------------- */}
-
+      {/* ------------------ADDRESS MANAGEMENT------------------------------------------- */}
     </div>
   );
 }
