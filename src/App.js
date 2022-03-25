@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./styles.css";
+import { useCart, useLanguage, useTheme } from "./cart.context";
 
 import { ProductCard } from "./ProductCard";
 import { OutOfStockCard } from "./OutOfStockCard";
@@ -382,7 +383,10 @@ export default function App() {
   };
 
   // ------------------ADDRESS MANAGEMENT-------------------------------------------
-
+  //  -------------------------use context live exercises ----------------------------
+  // const { items, addToCart } = useCart();
+  // const { theme, themeHandler } = useTheme();
+  // const { language, languageHandler } = useLanguage();
   return (
     <div
       style={{
@@ -568,6 +572,23 @@ export default function App() {
         </ul>
       </div>
       {/* ------------------ADDRESS MANAGEMENT------------------------------------------- */}
+      {/* --------useContext live Exercises-------- */}
+      {/* <button onClick={themeHandler}>Toggle Theme</button>
+      <button onClick={languageHandler}>Change to Telugu</button>
+
+      <h2>Cart Items {items}</h2>
+      <h1>{language.title}</h1>
+
+      {[1, 2, 3].map((item) => {
+        return (
+          <li key={item}>
+            {" "}
+            <h2>Product {item}</h2>{" "}
+            <button onClick={addToCart}>Add to Cart</button>
+          </li>
+        );
+      })} */}
+      {/* ---------useContext live Exercises ------*/}
     </div>
   );
 }
