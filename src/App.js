@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./styles.css";
-import { useCart, useLanguage, useTheme } from "./cart.context";
+import { useReducer, useCart, useLanguage, useTheme } from "./cart.context";
 
 import { ProductCard } from "./ProductCard";
 import { OutOfStockCard } from "./OutOfStockCard";
@@ -387,6 +387,24 @@ export default function App() {
   // const { items, addToCart } = useCart();
   // const { theme, themeHandler } = useTheme();
   // const { language, languageHandler } = useLanguage();
+  //  -------------------------use context live exercises ----------------------------
+  //  -------------------------Simple Counter with useReducer  ----------------------------
+  const initialState = 0;
+  const reducer = (initialState, action) => {
+    switch (action) {
+      case "increment":
+        return initialState + 1;
+      case "decrement":
+        return initialState - 1;
+      case "reset":
+        return initialState;
+      default:
+        return initialState;
+    }
+  };
+  // const [count, dispatch] = useReducer(reducer, initialState);
+  //  -------------------------Simple Counter with useReducer  ----------------------------
+
   return (
     <div
       style={{
@@ -396,6 +414,10 @@ export default function App() {
       }}
       className="App"
     >
+      <h1> Counter using useReducer </h1>
+      <p> Counter : {count}</p>
+      <button onClick={() => dispatch("increment")}>increment</button>
+      <button onClick={() => dispatch("decrement")}>decrement</button>
       <UserContext.Provider value="kotesh">
         <ComponentZ />
         {/* Wrapping the inner component with the created hook variable with "Provider" key :)  */}
