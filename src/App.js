@@ -389,21 +389,71 @@ export default function App() {
   // const { language, languageHandler } = useLanguage();
   //  -------------------------use context live exercises ----------------------------
   //  -------------------------Simple Counter with useReducer  ----------------------------
-  const initialState = 0;
-  const reducer = (initialState, action) => {
-    switch (action) {
-      case "increment":
-        return initialState + 1;
-      case "decrement":
-        return initialState - 1;
-      case "reset":
-        return initialState;
-      default:
-        return initialState;
-    }
-  };
+  // const initialState = 0;
+  // const reducer1 = (initialState, action) => {
+  //   switch (action) {
+  //     case "increment":
+  //       return initialState + 1;
+  //     case "decrement":
+  //       return initialState - 1;
+  //     case "reset":
+  //       return initialState;
+  //     default:
+  //       return initialState;
+  //   }
+  // };
   // const [count, dispatch] = useReducer(reducer, initialState);
   //  -------------------------Simple Counter with useReducer  ----------------------------
+
+  // ------------------------- Simple Add/remove from cart  with useReducer  ---------------------------- 
+
+  const itemsInCart = [
+    {
+      id: 1,
+      name: "Shoes",
+      price: 230
+    },
+    {
+      id: 2,
+      name: "Bag",
+      price: 230
+    },
+    {
+      id: 3,
+      name: "Glasses",
+      price: 230
+    },
+    {
+      id: 4,
+      name: "Hat",
+      price: 230
+    }
+  ];
+  //increase quantity
+  //remove from cart
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "ADD_TO_CART":
+        console.log("action");
+        return {
+          ...state,
+          items: state.items + 1,
+          price: state.price + action.payload
+        };
+      case "REMOVE_FROM_CART":
+        return {
+          ...state,
+          items: state.items - 1,
+          price: state.price - action.payload
+        };
+      default:
+        return state;
+    }
+  };
+  const [state, dispatch] = useReducer(reducer, { items: 0, price: 0 });
+
+  const { items, price } = state; //Destructured the state and use the simple variables inside :)
+  // ------------------------- Simple Add/remove from cart  with useReducer  ---------------------------- 
 
   return (
     <div
@@ -414,6 +464,8 @@ export default function App() {
       }}
       className="App"
     >
+              {/* -------------------------Simple Counter with useReducer  ---------------------------- */}
+
       <h1> Counter using useReducer </h1>
       <p> Counter : {count}</p>
       <button onClick={() => dispatch("increment")}>increment</button>
@@ -422,6 +474,36 @@ export default function App() {
         <ComponentZ />
         {/* Wrapping the inner component with the created hook variable with "Provider" key :)  */}
       </UserContext.Provider>
+        {/* -------------------------Simple Counter with useReducer  ---------------------------- */}
+        {/* ------------------------- Simple Add/remove from cart  with useReducer  ---------------------------- */}
+        <h1>Cart</h1>
+      <h1>Items in cart:{items}</h1>
+      <h1>Total price:{price}</h1>
+
+      {itemsInCart.map(({ name, price }) => {
+        return (
+          <div>
+            <h2> Item: {name} </h2>
+            <h2> Price: {price}</h2>
+            <button
+              onClick={() => dispatch({ type: "ADD_TO_CART", payload: price })}
+            >
+              {/* Above "dispatch"  is a method that sends (specifies) something that is be used as the "action" inside the parameters of reducer function */}
+              <p>Add to cart</p>
+            </button>
+            <button
+              onClick={() =>
+                dispatch({ type: "REMOVE_FROM_CART", payload: price })
+              }
+            >
+              <p>Remove from cart</p>
+            </button>
+          </div>
+        );
+      })}
+        {/* ------------------------- Simple Add/remove from cart  with useReducer  ---------------------------- */}
+
+
       {/* ----------------------------------useEffectHook- START------------- */}
       {/* {loader && <div>loading...</div>}
       <h1> Showcase Products </h1>
