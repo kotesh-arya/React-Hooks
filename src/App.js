@@ -454,6 +454,20 @@ export default function App() {
 
   const { items, price } = state; //Destructured the state and use the simple variables inside :)
   // ------------------------- Simple Add/remove from cart  with useReducer  ---------------------------- 
+  
+  // ------CustomHook-----------
+
+  // const useDocumentTitle = (counter) => {
+  //   useEffect(() => {
+  //     document.title = counter;
+  //   }, [counter]);
+  // };
+  
+  // export default function App() {
+  //   const [counter, setCounter] = useState(0);
+  //   useDocumentTitle(counter);
+
+      // ------CustomHook-----------
 
   return (
     <div
@@ -464,6 +478,17 @@ export default function App() {
       }}
       className="App"
     >
+
+      {/* customHook---------- */}
+       {/* <button
+        onClick={() => {
+          setCounter(counter + 1);
+        }}
+      >
+        {counter}
+      </button> */}
+            {/* customHook---------- */}
+
               {/* -------------------------Simple Counter with useReducer  ---------------------------- */}
 
       <h1> Counter using useReducer </h1>
