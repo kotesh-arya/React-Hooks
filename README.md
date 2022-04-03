@@ -1,5 +1,6 @@
 # React-Hooks
 ## useState
 ## useEffect
-## useCOntext
+## UseContext
 ## useReducer
+## Custom-Hooks
